@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="panel">
+  <h5>Libraries</h5>
+  <div style="overflow: scroll">
+    <table style="width: 100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Arch</th>
+          <th>Elfclass</th>
+          <th>Checksum</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for library in libraries %}
+        <tr>
+          <td><a href="/library/{{ library.checksum }}">{{ library.name }}</a></td>
+          <td>{{ library.machine_arch }}</td>
+          <td>{{ library.elfclass }}</td>
+          <td>{{ library.checksum }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

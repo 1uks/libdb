@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="panel">
+  <h5>Find Library</h5>
+  <form action="/search" method="POST">
+    <div id="symbols">
+    {% for name, addr in symbols %}
+      <div class="symbol row">
+        <div class="large-5 columns">
+          <input type="text" name="name[]" value="{{ name }}" placeholder="Symbol" required />
+        </div>
+        <div class="large-5 columns">
+          <input type="text" name="addr[]" value="{% if addr %}{{ '0x%x' % addr }}{% endif %}" placeholder="Address" required />
+        </div>
+        <div class="large-2 columns">
+            <a href="#" class="button tiny alert delete-button" {% if symbols|length == 2 %}disabled="true"{% endif %}>✘</a>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    <div class="row">
+      <div id="add-symbol" class="large-2 large-offset-10 columns">
+        <a href="#" class="button tiny success">+</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-2 columns">
+        <input class="button tiny" type="submit" />
+      </div>
+    </div>
+  </form>
+  {% if libraries %}
+  <hr />
+  <div class="row">
+    <div class="large-12 columns">
+      <h5>Matching Libraries</h5>
+      <ul class="square">
+      {% for library, base in libraries %}
+        <li><a href="/library/{{ library.checksum }}">{{ library.name }} ({{ library.checksum }})</a></li>
+         base_addr = {{ '0x%x' % base }} 
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+{% block js %}
+<script>
+$(document).ready(function() {
+    function do_symbol_completion(request, callback) {
+        $.get("/symbols/completion", {name: request.term + "%"}, function(data) {
+            callback(data.symbols);
+        });
+    }
+
+    $("input[name*='name[]']").autocomplete({
+        source: do_symbol_completion
+    });
+
+    $(".delete-button").click(function() {
+        var num_symbols = $(".symbol").length;
+        if(num_symbols > 2) {
+            $(this).parent().parent().remove();
+            if(num_symbols == 3) {
+                $(".delete-button").attr("disabled", true);
+            }
+        }
+    });
+
+    $("#add-symbol").click(function() {
+        var symbol_row = $(".symbol").last().clone({withDataAndEvents: true});
+        symbol_row.find("input").val("");
+        $("#symbols").append(symbol_row);
+
+        if($(".symbol").length > 2) {
+            $(".delete-button").attr("disabled", false);
+        }
+    });
+});
+</script>
+{% endblock %}

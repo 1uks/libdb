@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="panel">
+  <h5>Upload Library</h5>
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <input name="file" class="button tiny" type="file" required />
+    <input class="button tiny" type="submit" />
+  </form>
+</div>
+{% endblock %}

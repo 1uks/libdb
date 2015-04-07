@@ -1,0 +1,51 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LibDb</title>
+    <link rel="stylesheet" href="/static/css/foundation.css" />
+    <link rel="stylesheet" href="/static/css/jquery-ui.min.css" />
+    <script src="/static/js/vendor/modernizr.js"></script>
+  </head>
+  <body>
+
+    <div class="row">
+      <div class="large-12 columns">
+          <nav class="top-bar" data-topbar role="navigation">
+            <ul class="title-area">
+              <li class="name">
+                <h1><a href="/">LibDb</a></h1>
+              </li>
+            </ul>
+
+            <section class="top-bar-section">
+              <ul class="left">
+                <li><a href="/upload">Upload</a></li>
+                <li><a href="/libraries">Libraries</a></li>
+                <li><a href="/search">Search</a></li>
+              </ul>
+            </section>
+          </nav>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+
+    <script src="/static/js/vendor/jquery.js"></script>
+    <script src="/static/js/vendor/jquery-ui.min.js"></script>
+    <script src="/static/js/vendor/fastclick.js"></script>
+    <script src="/static/js/foundation.min.js"></script>
+    <script src="/static/js/foundation/foundation.topbar.js"></script>
+    <script>
+$(document).foundation();
+    </script>
+    {% block js %}
+    {% endblock %}
+  </body>
+</html>

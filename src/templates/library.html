@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="panel">
+  <h5>{{ library.name }}</h5>
+  <a href="/download/{{ library.checksum}}" class="button tiny">Download</a>
+  <table style="width: 100%">
+    <tbody>
+      <tr>
+        <td>Arch</td>
+        <td>{{ library.machine_arch }}</td>
+      </tr>
+      <tr>
+        <td>Elfclass</td>
+        <td>{{ library.elfclass }}</td>
+      </tr>
+      <tr>
+        <td>Checksum</td>
+        <td>{{ library.checksum }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <hr />
+    <h5>Symbols</h5>
+    <table style="width: 100%">
+      <thead>
+        <tr>
+          <th>Address</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for symbol in library.iter_symbols() %}
+        <tr>
+          <td>{{ '0x%x' % symbol.addr }}</td>
+          <td>{{ symbol.name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}
