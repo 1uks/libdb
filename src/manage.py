@@ -28,11 +28,9 @@ def handle_find(parser, args):
             sys.exit(1)
         symbols.append((name, addr))
     libdb = LibDb()
-    table = PrettyTable(["id", "name", "base", "checksum"])
-    for library in libdb.find(symbols):
-        name, addr = symbols[0]
-        base = "0x{0:x}".format(library.calculate_base(name, addr))
-        table.add_row([library.id, library.name, base, library.checksum])
+    table = PrettyTable(["id", "name", "base_addr", "checksum"])
+    for library, base_addr in libdb.find(symbols):
+        table.add_row([library.id, library.name, hex(base_addr), library.checksum])
     if table.rowcount:
         print table
 
