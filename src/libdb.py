@@ -40,7 +40,7 @@ class Symbol(Base):
     addr = Column(Integer, nullable=False)
     #FIXME: add a whole lot of other symbol information
     library_id = Column(Integer, ForeignKey("libraries.id"), nullable=False)
-    library = relationship("Library", backref=backref("symbols", order_by=id, lazy="dynamic"))
+    library = relationship("Library", backref=backref("symbols", order_by=id))
 
     def __repr__(self):
         return 'Symbol(name="{0}", addr=0x{1:x})'.format(self.name, self.addr)
@@ -152,7 +152,6 @@ class LibDb(object):
                 matching_libraries.append((library, base_addr))
         return sorted(matching_libraries,
             cmp=lambda (a, _), (b, __): cmp(a.id, b.id))
-
 
     def iter_libraries(self):
         for library in self.session.query(Library).yield_per(1000):
